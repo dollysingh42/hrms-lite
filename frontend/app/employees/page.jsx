@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/api';
 import Loader from '../../components/Loader';
+import { Trash2, Loader2 } from 'lucide-react';
 
 export default function Employees() {
   const [employees, setEmployees] = useState([]);
@@ -24,8 +25,7 @@ export default function Employees() {
       const data = await api.get('/employees');
       setEmployees(data);
     } catch (err) {
-      console.error(err);
-      alert('Failed to fetch employees');
+      alert('Failed to load employees');
     } finally {
       setLoading(false);
     }
@@ -123,17 +123,15 @@ export default function Employees() {
                   <td className="p-3">{e.department}</td>
                   <td className="p-3">
                     <button
-                      disabled={deletingId === e.id}
                       onClick={() => handleDelete(e.id)}
-                      className="text-red-600 hover:underline text-sm flex items-center gap-2 disabled:opacity-60"
+                      disabled={deletingId === e.id}
+                      title="Delete employee"
+                      className="p-2 rounded-lg text-red-600 hover:bg-red-100 transition disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       {deletingId === e.id ? (
-                        <>
-                          <span className="w-4 h-4 border-2 border-red-300 border-t-red-600 rounded-full animate-spin" />
-                          Deleting…
-                        </>
+                        <Loader2 className="w-5 h-5 animate-spin" />
                       ) : (
-                        'Delete'
+                        <Trash2 className="w-5 h-5" />
                       )}
                     </button>
                   </td>
@@ -156,7 +154,7 @@ export default function Employees() {
                 placeholder="Employee ID"
                 value={form.employee_id}
                 onChange={handleChange}
-                className="w-full p-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
+                className="w-full p-2 border border-input rounded-lg bg-background"
               />
 
               <input
@@ -164,7 +162,7 @@ export default function Employees() {
                 placeholder="Full Name"
                 value={form.full_name}
                 onChange={handleChange}
-                className="w-full p-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
+                className="w-full p-2 border border-input rounded-lg bg-background"
               />
 
               <input
@@ -173,7 +171,7 @@ export default function Employees() {
                 placeholder="Email"
                 value={form.email}
                 onChange={handleChange}
-                className="w-full p-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
+                className="w-full p-2 border border-input rounded-lg bg-background"
               />
 
               <input
@@ -181,14 +179,14 @@ export default function Employees() {
                 placeholder="Department"
                 value={form.department}
                 onChange={handleChange}
-                className="w-full p-2 border border-input rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring placeholder:text-muted-foreground"
+                className="w-full p-2 border border-input rounded-lg bg-background"
               />
 
               <div className="flex justify-end gap-3 pt-2">
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="px-4 py-2 rounded-lg border border-input bg-background hover:bg-accent hover:text-accent-foreground transition"
+                  className="px-4 py-2 rounded-lg border border-input hover:bg-accent transition"
                 >
                   Cancel
                 </button>
@@ -196,7 +194,7 @@ export default function Employees() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                  className="px-4 py-2 rounded-lg bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-60"
                 >
                   {submitting ? 'Saving…' : 'Save'}
                 </button>
