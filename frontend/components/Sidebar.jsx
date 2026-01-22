@@ -13,10 +13,10 @@ export default function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex flex-col w-64 border-r shadow-sm transition-colors duration-300
-      bg-sidebar border-border text-sidebar-foreground">
-    
-      <div className="h-16 flex items-center px-6 border-b border-border">
+    <aside className="hidden lg:flex flex-col w-64 border-r border-border shadow-sm transition-colors duration-300
+      bg-sidebar text-sidebar-foreground">
+
+      <div className="h-16 flex items-center px-6 border-b border-sidebar-foreground/10">
         <div className="w-9 h-9 rounded-lg bg-primary text-primary-foreground flex items-center justify-center font-bold">
           H
         </div>
@@ -32,10 +32,9 @@ export default function Sidebar() {
               key={item.href}
               href={item.href}
               className={`block px-4 py-3 rounded-lg text-sm font-medium transition-colors
-                ${
-                  active
-                    ? 'bg-sidebar-accent text-sidebar-accent-foreground'
-                    : 'text-muted-foreground hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
+                ${active
+                  ? 'bg-sidebar-accent text-sidebar-accent-foreground'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground'
                 }
               `}
             >
