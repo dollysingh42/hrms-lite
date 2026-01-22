@@ -15,6 +15,9 @@ export default function Attendance() {
   const [loadingAttendance, setLoadingAttendance] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
+  // ✅ Today's date (YYYY-MM-DD)
+  const today = new Date().toISOString().split('T')[0];
+
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
@@ -22,6 +25,7 @@ export default function Attendance() {
         setEmployees(data);
       } catch (err) {
         console.error(err);
+        alert('Failed to load employees');
       } finally {
         setLoadingEmployees(false);
       }
@@ -38,6 +42,7 @@ export default function Attendance() {
       setAttendance(data);
     } catch (err) {
       console.error(err);
+      alert('Failed to load attendance');
     } finally {
       setLoadingAttendance(false);
     }
@@ -46,6 +51,12 @@ export default function Attendance() {
   const submitAttendance = async () => {
     if (!employeeId || !date) {
       alert('Please select employee and date');
+      return;
+    }
+
+    // ✅ Extra validation (safety)
+    if (date < today) {
+      alert('You cannot select a past date');
       return;
     }
 
@@ -59,7 +70,7 @@ export default function Attendance() {
       await fetchAttendance(employeeId);
       alert('Attendance marked successfully');
     } catch (err) {
-      alert(err);
+      alert(err?.message || 'Failed to mark attendance');
     } finally {
       setSubmitting(false);
     }
@@ -73,6 +84,7 @@ export default function Attendance() {
     <div className="space-y-8">
       <h1 className="text-2xl font-bold text-foreground">Attendance</h1>
 
+      {/* Mark Attendance */}
       <div className="p-6 rounded-xl shadow-sm border border-border bg-card text-card-foreground max-w-md space-y-4">
         <h2 className="font-semibold text-lg">Mark Attendance</h2>
 
@@ -94,6 +106,7 @@ export default function Attendance() {
 
         <input
           type="date"
+          min={today}   // ✅ Past dates disabled
           className="w-full p-2 rounded-lg border border-input bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-ring [color-scheme:light] dark:[color-scheme:dark]"
           value={date}
           onChange={(e) => setDate(e.target.value)}
@@ -117,6 +130,7 @@ export default function Attendance() {
         </button>
       </div>
 
+      {/* Attendance Records */}
       <div className="p-6 rounded-xl shadow-sm border border-border bg-card text-card-foreground">
         <h2 className="font-semibold text-lg mb-4">Attendance Records</h2>
 
@@ -141,7 +155,10 @@ export default function Attendance() {
               </thead>
               <tbody>
                 {attendance.map((a) => (
-                  <tr key={a.id} className="border-t border-border hover:bg-muted/50 transition-colors">
+                  <tr
+                    key={a.id}
+                    className="border-t border-border hover:bg-muted/50 transition-colors"
+                  >
                     <td className="p-3">{a.date}</td>
                     <td className="p-3">
                       <span
