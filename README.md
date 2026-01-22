@@ -87,23 +87,6 @@ The application allows an admin to **manage employee records** and **track daily
 
 ---
 
-## ⚙️ Backend Setup
-
-### Prerequisites
-- Python 3.9+
-- MySQL
-- pip / virtualenv
-
-### Steps
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate    # macOS / Linux
-venv\Scripts\activate       # Windows
-
-pip install -r requirements.txt
-
 ## 🗄️ Database Structure
 
 ### Employees Table
@@ -135,3 +118,20 @@ pip install -r requirements.txt
 - One employee can have multiple attendance records
 - Foreign key constraint ensures referential integrity between employees and attendance
 
+
+## ⚙️ Backend Setup
+
+### Prerequisites
+- Python 3.9+
+- MySQL
+- pip / virtualenv
+
+### Steps
+
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate    # macOS / Linux
+venv\Scripts\activate       # Windows
+
+pip install -r requirements.txt
